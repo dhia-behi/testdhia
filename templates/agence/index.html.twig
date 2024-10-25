@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agence List{% endblock %}
+
+{% block body %}
+<h1>Agence List</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for agence in agences %}
+            <tr>
+                <td>{{ agence.id }}</td>
+                <td>{{ agence.name }}</td>
+                <td>{{ agence.local }}</td>
+                <td>
+                    <a href="{{ path('annonce_new') }}">Add Annonce</a>
+                    <a href="{{ path('agence_show', {'id': agence.id}) }}">Show</a>
+                    <a href="{{ path('agence_edit', {'id': agence.id}) }}">Edit</a>
+                    <form method="post" action="{{ path('agence_delete', {'id': agence.id}) }}" style="display:inline;">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ agence.id) }}">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No agences found</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{ path('agence_new') }}">Create New Agence</a>
+{% endblock %}
